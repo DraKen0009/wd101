@@ -12,18 +12,23 @@ function calculateAge(dob) {
 function displayUsers() {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const tableBody = document.querySelector('#users-table tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
+    tableBody.innerHTML = '';
     users.forEach(user => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="py-2 text-center">${user.fullName}</td>
             <td class="py-2 text-center">${user.email}</td>
+            <td class="py-2 text-center">${user.password}</td>
             <td class="py-2 text-center">${user.dateOfBirth}</td>
+            <td class="py-2 text-center">${user.termsChecked}</td>
         `;
         tableBody.appendChild(row);
     });
 }
-
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+}
 document.getElementById('registration-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -44,9 +49,13 @@ document.getElementById('registration-form').addEventListener('submit', function
         alert('You must accept the Terms and Conditions.');
         return;
     }
+    if (!validateEmail(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    users.push({ fullName, email, dateOfBirth });
+    users.push({ fullName, email,password, dateOfBirth,termsChecked });
     localStorage.setItem('users', JSON.stringify(users));
 
     displayUsers();
