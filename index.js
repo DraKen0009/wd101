@@ -9,6 +9,10 @@ function calculateAge(dob) {
     return age;
 }
 
+function clearLocalStorage() {
+    localStorage.removeItem('users');
+}
+
 function displayUsers() {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const tableBody = document.querySelector('#users-table tbody');
@@ -63,4 +67,5 @@ document.getElementById('registration-form').addEventListener('submit', function
     this.reset();
 });
 
+clearLocalStorage(); // This will clear all the session data when webpage is first loaded
 displayUsers();
